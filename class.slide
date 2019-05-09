@@ -1,0 +1,321 @@
+Go Overview
+
+Bill Allen
+
+* Assumptions
+- You've written software before.
+- You've set up Go in your environment.
+- You've used and of the following: Python, Java, C.
+- You understand pass-by-value versus pass-by-reference.
+- You understand `&` and `*` pointer notation (we can help).
+
+* Goals
+- Introduce some of the differences of Go.
+- Introduce some basic Go patterns.
+- Really learn via exercises.
+- Not an exhaustive guide to all features.
+- Please stop me to ask questions.  There's a lot here.
+
+* Go Resources
+- Standard Library
+- DevDocs
+
+* Agenda
+- Language background
+- Syntax and built-in types
+- Error handling
+- Structs
+- Interfaces
+- Maps and slices
+- Defer
+- Concurrency
+- Exercises
+
+* Extra Topics
+- Testing, test coverage, and benchmarking
+- Effective Go
+- Explore the Standard Library
+- Documentation
+- Modules
+- Containerization
+- Panic/Recover
+- Go race checker
+- Performance monitoring
+- gonum (numpy for Go)
+- iota enumerator
+- IDE setup
+
+* History
+- Started in 2007 at Google by Thompson, Pike (creators of C), and Griesemer.
+- All three cited their dislike of C++'s complexity as a primary motivation for designing Go.
+- Wanted to make concurrency more accessible; see Communicating Sequential Processes (CSP) by Hoare.
+- Syntax influence from C, ALGOL, and Python with the goal of being "light on the page".
+
+* Community
+- Go strongly resists the kitchen-sink mentality.  Many feature requests rejected.
+- Only 25 keywords.
+- Go pushes idioms throughout the community via language design and tooling.
+- Avoids need for many project-level standards and debates.
+- Fundamentals that can be easily extended; arrays, maps, channels, structs, etc.
+- "Go 1.x Promise": New 1.x compilers will compile older 1.x code.
+- Currently at Go 1.12.
+
+* Misc.
+- Statically compiled; no need to worry about transferring dependencies with executable.  Beefy executables though.  Hello World = 1.8 MiB.
+- Took the only useful thing from Java: Interfaces.
+- Compiler is _fast_.
+- All variables zero initialized.
+- All strings are unicode (characters are called Runes).
+- Pointers but no pointer arithmetic; removes a whole class of errors.
+- One-liners are not rewarded.  Fewer lines != better/faster/cooler.
+- cgo used to wrap C/C++ code if necessary.
+- Search for documentation using "golang".
+
+* Go Commands
+    go build
+
+    go env
+
+    go fmt
+
+    go get
+
+    go run
+
+    go test
+
+    go version
+
+* go fmt
+- Formats your code in the standard Go style.
+- Removes a whole class of developer debates.
+- vim and VS Code integration.
+- Tabs FTW!
+- Good: Format your code before you `git commit`.
+- Better: Get your editor to do it every time you save.
+
+* Obligatory Hello World
+.play -edit hello.go
+
+* Built-in Types
+- No implicit casts.  Must use explicit "conversions".
+- `bool`
+- `byte`
+- `rune`
+- `string` (immutable)
+- `float32`, `float64`
+- `int`, `int8`, `int16`, `int32`, `int64`
+- `uint`, `uint8`, `uint16`, `uint32`, `uint64`
+- `complex`, `complex64`, `complex128`, `imag`, `real`
+- `uintptr`
+
+* Type after name
+    func foo(x int, y string) bool {...}
+
+    func bar(x *string) *string {...}
+
+    func baz(x, y int) int {...}
+
+* Declaration and Assignment
+    var x int = 0  // long declaration
+    y := 0         // short declaration
+    ...
+    x := 100  // error, x already declared
+    x = 100   // ok, reassignment not redeclaration
+
+* No need to dereference
+    func payloadSize(x *Packet) int {
+        return len(x.Payload())  // not x->Payload()
+    }
+
+* Exceptions
+- There are none.
+- Exceptions are too much like `goto`.
+- Eliminates alternative logic paths that can happen as exceptions bubble up.
+- Explicityly handle the error: log it, ignore it, or pass it upward.
+- By convention, return error as last item in return tuple.  Gets away from using out-of-band values for errors.
+- Use `nil` when there is no error.
+
+* Error Example
+. play -edit err.go /START MAIN OMIT/,/END MAIN OMIT/
+
+* Error Example
+. play -edit err.go /START FUNC OMIT/,/END FUNC OMIT/
+
+* Object-Oriented(ish)
+- No inheritance.  No templating.  No generics (yet).
+- Interfaces, interfaces, interfaces.
+- Similar to duck-typing, but at compile time.
+- Variables and functions that start with a capital letter are public.
+
+* Struct Member Visibility
+- Capitalization determines visibility.
+
+    type Packet struct {
+        Length   uint16  // public
+        Protocol uint8   // public
+        Source   [4]byte // public
+        Dest     [4]byte // public
+        data     []byte  // private
+    }
+
+    // public member function
+    func (pkt *Packet) Data() []byte {
+        return pkt.data
+    }
+
+    // private member function
+    func (pkt *Packet) process() []byte {...}
+
+* Structs are like tuples
+- Two structs with the same values are equal, like tuples.
+- Pointers to structs must be explicit.
+.play -edit structequality.go /START OMIT/,/END OMIT/
+
+* Interfaces, by example
+- Stringer
+    type Stringer interface {
+        String() string
+    }
+
+- Adding String function to any type implicitly satisfies the Stringer interface.
+
+    type Packet struct {...}
+
+    func (p Packet) String() string {
+        return fmt.Sprintf("SrcIP=%s DstIP=%s Size=%d", p.SrcIp, p.DstIp, p.PayloadSize)
+    }
+
+- Java equivalent:
+    public class Packet implements Stringer {
+        public String toString() {...}
+    }
+
+* error is actually an interface
+    type error interface {
+        Error() string
+    }
+- You can make your own error types by implementing the interface.
+.play -edit errorinterface.go /START OMIT/,/END OMIT/
+
+* Other popular interfaces
+- io.Reader and io.Writer
+    type Reader interface {
+        Read(p []byte) (n int, err error)
+    }
+
+    type Writer interface {
+        Write(p []byte) (n int, err error)
+    }
+
+- os.File, http.Request, bytes.Buffer, rand.Rand, and many others implement the Reader interface by providing Read().
+- os.File, http.Response, bytes.Buffer, and many others implement the Writer interface by providing Write().
+    func process(byteSource io.Reader) (int, error) {...}
+
+* Package Member Visibility
+- Capitalization also applies to packages.
+
+    package packet
+
+    // Public functions can be called from outside the package
+    func ParsePacket(x []byte) (*Packet, error) {...}
+
+    // Private functions cannot be called from outside the package
+    func extractHeader(x []byte) ([]byte, error) {...}
+
+    // Public structs can be instantiated from outside the package
+    type Packet struct {...}
+
+    // Private structs cannot be instantiated from outside the package
+    type header struct {...}
+
+* Arrays and Slices
+- Arrays are pass-by-value, but you almost never use arrays directly.
+- Slices similar to Python lists, and refer to a range of an underlying array.
+- Slices are also pass-by-value, but the "value" only contains a reference to the start and end point in the underlying array.
+- Two slices can refer to the same array.
+- Slices often used where you'd use pointer arithmetic in C/C++.
+
+* Slice Example
+. play -edit array.go /START OMIT/,/END OMIT/
+
+* Map
+- Same as hash or dict in other languages (types must be declared).
+- Lookups can als obe check inline.
+.play -edit map.go /START OMIT/,/END OMIT/
+
+* Tuples
+- There are none.  Use structs.
+- But isn't multiple return like a tuple?  Yes and no.
+
+    func multiReturnFunc(a, b int) (int, bool) {
+        return a + b, (a+b < 0)
+    }
+
+    func main() {
+        // legal
+        sum, isNeg := multiReturnFunc(1, 2)
+
+        // illegal; you have to unpack immediately
+        result := multiReturnFunc(1,2)
+    }
+
+* Looping
+- `for` is the only loop keyword.
+
+    for { } // infinite loop
+
+    for x < testVal { } // while loop
+
+    for i := 0; i < testVal; i++ { } // classic for loop
+
+    for i, x := range items { } // loop over slice
+
+    for _, x := range items { } // same without i index
+
+    for k, v := range mapItems { } // loop over map
+
+    for item := range itemChan { } // read items from channel until channel closed
+
+* Member function aren't just for structs
+.play -edit memberfunctions.go
+
+* Defer
+- Keeps the exit code close ot the initial code.
+- Defer guaranteed to run when leaving the function, even if there's an error.
+- Similar to Python's try, except, finally.
+- Similar to Java's try, catch, finally.
+- Sort of like a C++ destructor, but just for the function.
+- Multiple defers happen in LIFO order, popping off the stack.
+
+* Defer Example
+.play -edit defer.go /START OMIT/,/END OMIT/
+
+* Channels and Goroutines
+- Go's killer app.
+- Enables little services/workers within your code, with messaging.
+- For single machine, no RPC.
+- Goroutines are much lighter weight than threads; 100K goroutines is nothing special.
+- Channels are FIFO.
+
+* "Concurrency is not parallelism"
+- Highly recommended Rob Pike video on YouTube.
+- One core != one task; disk, network, memory, etc. can all do things concurrently.
+- Go extends this concept into the language with goroutines providing concurrency.
+
+* "Don't communicate by sharing memory.  Share memory by communicating."
+- What The Function does that mean?
+- Shared memory requires fugly mutex locks and introduces possible race conditions.
+- Make communication the synchronizer.
+
+* Put Another Way...
+- A single-threaded program running on one CPU does not require synchronization.
+- Another single-threaded program running on one CPU also does not require synchronization.
+- Now let those two programs communicate.
+- If the communication is the synchronizer, there's still no need for other synchronization.
+
+* You've done this
+- Unix pipes.
+- Multiple programs synchronized by communicating lines to one another.
+
+    cat somefile.txt | sort | uniq | less
