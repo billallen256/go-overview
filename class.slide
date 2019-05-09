@@ -314,8 +314,73 @@ Bill Allen
 - Now let those two programs communicate.
 - If the communication is the synchronizer, there's still no need for other synchronization.
 
-* You've done this
+* You've done this before
 - Unix pipes.
 - Multiple programs synchronized by communicating lines to one another.
 
     cat somefile.txt | sort | uniq | less
+
+* Pipeline Concurrency Pattern
+.play -edit pipeline.go /START MAIN OMIT/,/END MAIN OMIT/
+
+* Pipeline Concurrency Pattern
+.play -edit pipeline.go /START 1 OMIT/,/END 1 OMIT/
+
+* Pipeline Concurrency Pattern
+.play -edit pipeline.go /START 2 OMIT/,/END 2 OMIT/
+
+* Pipeline Concurrency Pattern
+.play -edit pipeline.go /START 3 OMIT/,/END 3 OMIT/
+
+* Fire-and-Forget Concurrency Pattern
+- Useful when the success or failure of a task is simply going to be logged.
+.play -edit fireandforget.go /START OMIT/,/END OMIT/
+
+* Listening to Multiple Channels with select
+- Similar to C's `select` system call for file descriptors.
+- Don't confuse with `switch`.
+.play -edit select.go /START FUNC OMIT/,/END FUNC OMIT/
+
+* Listening to Multiple Channels with select
+.play -edit select.go /START MAIN OMIT/,/END MAIN OMIT/
+
+* Goroutine Gotchas
+- Don't feel like you have to use goroutines.  Get it working first.
+- Careful goroutine closures and `defer`.
+- Deadlocks.
+    fatal error: all goroutines are asleep - deadlock!
+
+* Goroutines and defer
+.play -edit deferclose.go /START OMIT/,/END OMIT/
+
+* Documentation
+- Docs are never far from the source.
+- You can do the same.
+- By convention, start doc comments with the name of the function/type.
+- LoadX509KeyPair Example
+
+* Exercise
+- See what version of Go you're running.
+    go version
+- Write and run Hellow World
+    go run hello.go  // keyword hints: package import func
+
+* Exercise
+- Write a program  that returns a PacketMeta struct for each packet in a pcap.
+    type PacketMeta struct {
+        Protocol    string
+        SrcIp       net.IP
+        DstIp       net.IP
+        PayloadSize int
+    }
+- Implement the Stringer interface for PacketMeta.
+- Print out each PacketMeta struct.
+
+* Exercise
+- Write a program that counts the number of packets received for each protocol.
+- Don't use goroutines.
+
+* Exercise
+- Rewrite your protocol counting program to use goroutines for concurrency.
+- Compare the execution time of the concurrent version with the serial version.
+- Hint: Take a look at sync.WaitGroup.
