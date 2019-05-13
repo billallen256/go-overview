@@ -278,7 +278,7 @@ Bill Allen
     for item := range itemChan { } // read items from channel until channel closed
 
 * Member function aren't just for structs
-.play -edit memberfunctions.go
+.play -edit memberfunctions.go /START OMIT/,/END OMIT/
 
 * Defer
 - Keeps the exit code close ot the initial code.

@@ -39,7 +39,7 @@ func payloadSize(packet gopacket.Packet) (int, error) {
 		return 0, fmt.Errorf("Not an IPv4 packet")
 	}
 
-	appLayer := packets.ApplicationLayer()
+	appLayer := packet.ApplicationLayer()
 
 	if appLayer == nil {
 		return 0, fmt.Errorf("Application Layer not available")
