@@ -137,10 +137,10 @@ Bill Allen
 - Use `nil` when there is no error.
 
 * Error Example
-. play -edit err.go /START MAIN OMIT/,/END MAIN OMIT/
+.play -edit err.go /START MAIN OMIT/,/END MAIN OMIT/
 
 * Error Example
-. play -edit err.go /START FUNC OMIT/,/END FUNC OMIT/
+.play -edit err.go /START FUNC OMIT/,/END FUNC OMIT/
 
 * Object-Oriented(ish)
 - No inheritance.  No templating.  No generics (yet).
@@ -237,7 +237,7 @@ Bill Allen
 - Slices often used where you'd use pointer arithmetic in C/C++.
 
 * Slice Example
-. play -edit array.go /START OMIT/,/END OMIT/
+.play -edit array.go /START OMIT/,/END OMIT/
 
 * Map
 - Same as hash or dict in other languages (types must be declared).
