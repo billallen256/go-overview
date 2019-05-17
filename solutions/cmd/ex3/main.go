@@ -11,7 +11,11 @@ func main() {
 	name := flag.String("pcap", "packets.pcap", "PCAP file to process.")
 	flag.Parse()
 
+	counts := make(map[string]int)
 	pcap.ReadPacketMetas(*name, func(md *pcap.PacketMeta) {
-		log.Println(md)
+		counts[md.Protocol]++
 	})
+	for proto, count := range counts {
+		log.Println(proto, "->", count)
+	}
 }
