@@ -344,6 +344,9 @@ Bill Allen
 * Listening to Multiple Channels with select
 .play -edit select.go /START MAIN OMIT/,/END MAIN OMIT/
 
+* Waiting for completion
+.play -edit waitgroup.go /START MAIN OMIT/,/END MAIN OMIT/
+
 * Goroutine Gotchas
 - Don't feel like you have to use goroutines.  Get it working first.
 - Careful goroutine closures and `defer`.
