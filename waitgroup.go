@@ -17,9 +17,9 @@ func main() {
 	for i := 1; i < 4; i++ {
 		// Launch three tasks as goroutines
 		// This syntax is executing an anonymous function
-		go func(ammount int) {
+		go func(amount int) {
 			// Sleep the required number of seconds and then signal we are done
-			seconds := time.Second * time.Duration(ammount)
+			seconds := time.Second * time.Duration(amount)
 			time.Sleep(seconds)
 			log.Println("Hello after", seconds)
 			wg.Done()

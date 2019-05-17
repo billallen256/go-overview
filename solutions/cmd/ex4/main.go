@@ -12,7 +12,7 @@ import (
 
 func main() {
 	name := flag.String("pcap", "packets.pcap", "PCAP file to process.")
-	parallel := flag.Int("parallel", runtime.NumGoroutine(), "Number of goroutines to use for computation.")
+	parallel := flag.Int("parallel", runtime.NumCPU(), "Number of goroutines to use for computation.")
 	flag.Parse()
 
 	in := make(chan gopacket.Packet)
@@ -24,12 +24,15 @@ func main() {
 	for i := 0; i < *parallel; i++ {
 		go func() {
 			counts := make(map[string]int)
+
 			for p := range in {
-				md := pcap.NewPacketMeta(p)
-				if md != nil {
+				md, err := pcap.NewPacketMeta(p)
+
+				if err == nil {
 					counts[md.Protocol]++
 				}
 			}
+
 			results <- counts
 			done.Done()
 		}()
@@ -44,8 +47,10 @@ func main() {
 	// Collect results
 	done.Wait()
 	counts := make(map[string]int)
+
 	for i := 0; i < *parallel; i++ {
 		c := <-results
+
 		for proto, count := range c {
 			counts[proto] += count
 		}

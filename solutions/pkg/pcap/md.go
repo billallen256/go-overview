@@ -27,18 +27,23 @@ func (p *PacketMeta) String() string {
 }
 
 // NewPacketMeta creates a new PacketMeta from a packet.
-// Returns nil if the packet was not valid.
-func NewPacketMeta(packet gopacket.Packet) *PacketMeta {
+// Returns error if the packet was not valid.
+func NewPacketMeta(packet gopacket.Packet) (*PacketMeta, error) {
 	ip4Layer := packet.Layer(layers.LayerTypeIPv4)
 	payload := packet.ApplicationLayer()
+
 	if ip4Layer == nil || payload == nil {
-		return nil
+		return nil, fmt.Errorf("Invalid packet")
 	}
+
 	ip4 := ip4Layer.(*layers.IPv4)
-	return &PacketMeta{
+
+	md := PacketMeta{
 		Protocol:    ip4.NextLayerType().String(),
 		SrcIp:       ip4.SrcIP,
 		DstIp:       ip4.DstIP,
 		PayloadSize: len(payload.Payload()),
 	}
+
+	return &md, nil
 }
