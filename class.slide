@@ -359,13 +359,13 @@ Bill Allen
 - By convention, start doc comments with the name of the function/type.
 - LoadX509KeyPair Example
 
-* Exercise
+* Exercise 1
 - See what version of Go you're running.
     go version
-- Write and run Hellow World
+- Write and run Hello World
     go run hello.go  // keyword hints: package import func
 
-* Exercise
+* Exercise 2
 - Write a program  that returns a PacketMeta struct for each packet in a pcap.
     type PacketMeta struct {
         Protocol    string
@@ -376,11 +376,11 @@ Bill Allen
 - Implement the Stringer interface for PacketMeta.
 - Print out each PacketMeta struct.
 
-* Exercise
+* Exercise 3
 - Write a program that counts the number of packets received for each protocol.
 - Don't use goroutines.
 
-* Exercise
+* Exercise 4
 - Rewrite your protocol counting program to use goroutines for concurrency.
 - Compare the execution time of the concurrent version with the serial version.
 - Hint: Take a look at sync.WaitGroup.
