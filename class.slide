@@ -17,8 +17,10 @@ Bill Allen
 - Please stop me to ask questions.  There's a lot here.
 
 * Go Resources
-- Standard Library
-- DevDocs
+.link https://golang.org/pkg/#stdlib Standard Library
+.link https://devdocs.io/go/ DevDocs
+.link https://golang.org/doc/effective_go.html Effective Go
+.link https://commandcenter.blogspot.com/2012/06/less-is-exponentially-more.html Less is exponentially more
 
 * Agenda
 - Language background
@@ -32,9 +34,9 @@ Bill Allen
 - Exercises
 
 * Extra Topics
-- Testing, test coverage, and benchmarking
-- Effective Go
 - Explore the Standard Library
+- Read Effective Go
+- Testing, test coverage, and benchmarking
 - Documentation
 - Modules
 - Containerization
@@ -298,10 +300,12 @@ Bill Allen
 - Goroutines are much lighter weight than threads; 100K goroutines is nothing special.
 - Channels are FIFO.
 
-* "Concurrency is not parallelism"
-- Highly recommended Rob Pike video on YouTube.
+* "Concurrency is not Parallelism"
 - One core != one task; disk, network, memory, etc. can all do things concurrently.
 - Go extends this concept into the language with goroutines providing concurrency.
+
+* "Concurrency is not Parallelism"
+.iframe https://vimeo.com/49718712
 
 * "Don't communicate by sharing memory.  Share memory by communicating."
 - What The Function does that mean?
