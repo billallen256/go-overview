@@ -11,7 +11,7 @@ func main() {
 	s = append(s, "bar") // append at position 1
 	s = append(s, "baz") // grow and append at position 2
 
-	t := s[1:] // t refers to the last to items in s
+	t := s[1:] // t refers to the last two items in s
 
 	fmt.Printf("s = %+v\n", s)
 	fmt.Printf("t = %+v\n", t)

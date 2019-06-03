@@ -51,7 +51,7 @@ Bill Allen
 - Started in 2007 at Google by Thompson, Pike (creators of C), and Griesemer.
 - All three cited their dislike of C++'s complexity as a primary motivation for designing Go.
 - Wanted to make concurrency more accessible; see Communicating Sequential Processes (CSP) by Hoare.
-- Syntax influence from C, ALGOL, and Python with the goal of being "light on the page".
+- Syntax influence from ALGOL, C, and Python with the goal of being "light on the page".
 
 * Community
 - Go strongly resists the kitchen-sink mentality.  Many feature requests rejected.
@@ -134,7 +134,7 @@ Bill Allen
 - There are none.
 - Exceptions are too much like `goto`.
 - Eliminates alternative logic paths that can happen as exceptions bubble up.
-- Explicityly handle the error: log it, ignore it, or pass it upward.
+- Explicitly handle the error: log it, ignore it, or pass it upward.
 - By convention, return error as last item in return tuple.  Gets away from using out-of-band values for errors.
 - Use `nil` when there is no error.
 
@@ -147,7 +147,7 @@ Bill Allen
 * Object-Oriented(ish)
 - No inheritance.  No templating.  No generics (yet).
 - Interfaces, interfaces, interfaces.
-- Similar to duck-typing, but at compile time.
+- Similar to duck-typing, but at compile time.  Technically "structural typing".
 - Variables and functions that start with a capital letter are public.
 
 * Struct Member Visibility
@@ -235,7 +235,7 @@ Bill Allen
 - Arrays are pass-by-value, but you almost never use arrays directly.
 - Slices similar to Python lists, and refer to a range of an underlying array.
 - Slices are also pass-by-value, but the "value" only contains a reference to the start and end point in the underlying array.
-- Two slices can refer to the same array.
+- Multiple slices can refer to the same array.
 - Slices often used where you'd use pointer arithmetic in C/C++.
 
 * Slice Example
@@ -243,7 +243,7 @@ Bill Allen
 
 * Map
 - Same as hash or dict in other languages (types must be declared).
-- Lookups can als obe check inline.
+- Lookups can also be checked inline.
 .play -edit map.go /START OMIT/,/END OMIT/
 
 * Tuples
@@ -301,11 +301,9 @@ Bill Allen
 - Channels are FIFO.
 
 * "Concurrency is not Parallelism"
+- Rob Pike
 - One core != one task; disk, network, memory, etc. can all do things concurrently.
 - Go extends this concept into the language with goroutines providing concurrency.
-
-* "Concurrency is not Parallelism"
-.iframe https://vimeo.com/49718712
 
 * "Don't communicate by sharing memory.  Share memory by communicating."
 - What The Function does that mean?
@@ -322,7 +320,7 @@ Bill Allen
 - Unix pipes.
 - Multiple programs synchronized by communicating lines to one another.
 
-    cat somefile.txt | sort | uniq | less
+    cat somefile.txt | grep ERROR | cut -f 2 | sort | uniq | less
 
 * Pipeline Concurrency Pattern
 .play -edit pipeline.go /START MAIN OMIT/,/END MAIN OMIT/
@@ -364,7 +362,10 @@ Bill Allen
 - Docs are never far from the source.
 - You can do the same.
 - By convention, start doc comments with the name of the function/type.
-- LoadX509KeyPair Example
+.link https://golang.org/pkg/crypto/tls/#X509KeyPair LoadX509KeyPair() Example
+
+* Concept Review
+.link https://blog.golang.org/concurrency-is-not-parallelism Concurrency is not Parallelism (~30 minutes)
 
 * Exercise 1
 - See what version of Go you're running.
@@ -382,7 +383,8 @@ Bill Allen
     }
 - Implement the Stringer interface for PacketMeta.
 - Print out each PacketMeta struct.
-- Pcap files: [[https://www.netresec.com/?page=MACCDC]].
+.link http://tcpreplay.appneta.com/wiki/captures.html Small pcap files
+.link https://www.netresec.com/?page=MACCDC Big pcap files
 
 * Exercise 3
 - Write a program that counts the number of packets received for each protocol.

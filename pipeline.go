@@ -54,7 +54,7 @@ func scanAppLayer(appLayerChan <-chan gopacket.ApplicationLayer) {
 
 // START MAIN OMIT
 func main() {
-	pcapFile, _ := pcap.OpenOffline("packets.pcap")
+	pcapFile, _ := pcap.OpenOffline("packets2.pcap")
 	defer pcapFile.Close()
 	packetSource := gopacket.NewPacketSource(pcapFile, pcapFile.LinkType())
 
