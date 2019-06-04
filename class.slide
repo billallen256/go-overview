@@ -21,6 +21,7 @@ Bill Allen
 .link https://devdocs.io/go/ DevDocs
 .link https://golang.org/doc/effective_go.html Effective Go
 .link https://commandcenter.blogspot.com/2012/06/less-is-exponentially-more.html Less is exponentially more
+.link https://www.youtube.com/watch?v=KyuFeiG3Y60 Visualizing Concurrency in Go
 
 * Agenda
 - Language background
