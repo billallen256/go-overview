@@ -215,6 +215,19 @@ Bill Allen
 - os.File, http.Response, bytes.Buffer, and many others implement the Writer interface by providing Write().
     func process(byteSource io.Reader) (int, error) {...}
 
+* Type Assertions: Convert an interface to a concrete type
+
+.play -edit type-assertions.go /START MAIN OMIT/,/END MAIN OMIT/
+
+* Type Switch: Test for different concrete types
+
+.play -edit type-switch.go /START DEF OMIT/,/END DEF OMIT/
+
+* Type Switch: Test for different concrete types
+
+.play -edit type-switch.go /START MAIN OMIT/,/END MAIN OMIT/
+
+
 * Package Member Visibility
 - Capitalization also applies to packages.
 
