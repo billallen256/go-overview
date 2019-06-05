@@ -26,27 +26,27 @@ Download the binary .tar.gz (not the .pkg) from golang.org/dl: https://dl.google
 
 Extract into ~/goroot so GOROOT and GOPATH don't conflict:
 
-`
+```
 tar xzvf go1.12.5.darwin-amd64.tar.gz
 mv go ~/goroot
-`
+```
 
 Add to your PATH in `~/.bash_profile`:
 
-`
+```
 PATH="${HOME}/goroot/bin:${HOME}/go/bin:${PATH}"
 export PATH
-`
+```
 
 Reload your `~/.bash_profile`:
 
-`
+```
 source ~/.bash_profile
-`
+```
 
 Make sure you're running the expected version of Go:
 
-`
+```
 which go
 go version
-`
+```
