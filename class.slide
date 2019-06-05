@@ -5,7 +5,7 @@ Bill Allen
 * Assumptions
 - You've written software before.
 - You've set up Go in your environment.
-- You've used and of the following: Python, Java, C.
+- You've used any of the following: Python, Java, C.
 - You understand pass-by-value versus pass-by-reference.
 - You understand `&` and `*` pointer notation (we can help).
 
@@ -216,17 +216,13 @@ Bill Allen
     func process(byteSource io.Reader) (int, error) {...}
 
 * Type Assertions: Convert an interface to a concrete type
-
 .play -edit type-assertions.go /START MAIN OMIT/,/END MAIN OMIT/
 
 * Type Switch: Test for different concrete types
-
 .play -edit type-switch.go /START DEF OMIT/,/END DEF OMIT/
 
 * Type Switch: Test for different concrete types
-
 .play -edit type-switch.go /START MAIN OMIT/,/END MAIN OMIT/
-
 
 * Package Member Visibility
 - Capitalization also applies to packages.
@@ -390,13 +386,17 @@ Bill Allen
 * Exercise 2
 - Write a program  that returns a PacketMeta struct for each packet in a pcap.
     type PacketMeta struct {
-        Protocol    string
+        Protocol    string // IP protocol, eg. TCP, UDP
         SrcIp       net.IP
         DstIp       net.IP
         PayloadSize int
     }
 - Implement the Stringer interface for PacketMeta.
 - Print out each PacketMeta struct.
+- Use the gopacket package
+
+    go get github.com/google/gopacket
+
 .link http://tcpreplay.appneta.com/wiki/captures.html Small pcap files
 .link https://www.netresec.com/?page=MACCDC Big pcap files
 

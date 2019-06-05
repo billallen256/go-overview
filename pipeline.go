@@ -16,7 +16,7 @@ func ip4PacketsFromPcap(source *gopacket.PacketSource, packetChan chan<- gopacke
 	for packet := range source.Packets() {
 		ip4Layer := packet.Layer(layers.LayerTypeIPv4)
 
-		if ip4Layer == nil {
+		if ip4Layer != nil {
 			packetChan <- packet
 		}
 	}
