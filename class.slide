@@ -97,6 +97,14 @@ Bill Allen
 - Good: Format your code before you `git commit`.
 - Better: Get your editor to do it every time you save.
 
+* go mod
+- Used to create and share chunks of code (modules) with other users.
+- Tracks dependencies and their version for reproducible builds.
+- Removes the reliance on code being in `$GOPATH`.
+- Create a module: `go` `mod` `init` `<somewhere>`. Where `<somewhere>` is the canonical path to your code, e.g. `github.com/gershwinlabs/go-overview`.
+- Put the `go.mod` and `go.sum` file in your source code repository.
+- To add dependencies simply `go` `get` `<dependency>` (with `-u` to update).
+
 * Obligatory Hello World
 .play -edit hello.go
 
