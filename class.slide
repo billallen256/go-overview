@@ -35,18 +35,24 @@ Bill Allen
 - Exercises
 
 * Extra Topics
-- Explore the Standard Library
-- Read Effective Go
-- Testing, test coverage, and benchmarking
-- Documentation
-- Modules
-- Containerization
-- Panic/Recover
-- Go race checker
-- Performance monitoring
-- gonum (numpy for Go)
-- iota enumerator
-- IDE setup
+.link https://golang.org/pkg/ Explore the Standard Library
+.link https://godoc.org/ Open Source Package Documentation
+.link https://golang.org/doc/effective_go.html Read Effective Go
+.link https://golang.org/pkg/testing/ Testing
+.link https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go Benchmarking
+.link https://blog.golang.org/cover Test Coverage
+.link https://dave.cheney.net/2019/05/07/prefer-table-driven-tests Table Driven Testing
+.link https://blog.golang.org/using-go-modules Modules
+.link https://container-solutions.com/lean-go-containers-multi-stage-dockerfiles/ Containerization
+
+* Extra Topics (Continued)
+.link https://blog.golang.org/defer-panic-and-recover Panic/Recover
+.link https://blog.golang.org/race-detector Go race checker
+.link https://jvns.ca/blog/2017/09/24/profiling-go-with-pprof/ Performance monitoring
+.link https://www.gonum.org/ Gonum (numpy for Go)
+.link https://blog.learngoprogramming.com/golang-const-type-enums-iota-bc4befd096d3 iota enumerator
+.link https://www.youtube.com/channel/UC_BzFbxG2za3bp5NRRRXJSw Good go youtube channel
+.link https://dave.cheney.net/category/golang Good go blog
 
 * History
 - Started in 2007 at Google by Thompson, Pike (creators of C), and Griesemer.
@@ -384,6 +390,7 @@ Bill Allen
 
 * Concept Review
 .link https://blog.golang.org/concurrency-is-not-parallelism Concurrency is not Parallelism (~30 minutes)
+.link https://talks.golang.org/2012/waza.slide#1 Slides for above talk
 
 * Exercise 1
 - See what version of Go you're running.
@@ -416,3 +423,11 @@ Bill Allen
 - Rewrite your protocol counting program to use goroutines for concurrency.
 - Compare the execution time of the concurrent version with the serial version.
 - Hint: Take a look at sync.WaitGroup.
+
+* Extension tasks
+- Use the regexp library to support scanning packets with regexes provided by the user. Experiment with different mechanisms for scanning multiple regexes at once.
+- Write some tests for you code, generate some coverage reports and undertake race detection
+- Convert your exercise solutions to use go modules
+- Build a container with one of your exercise solutions in it
+- Profile one of your exercise solutions
+
