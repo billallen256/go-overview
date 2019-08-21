@@ -107,9 +107,19 @@ Bill Allen
 - Used to create and share chunks of code (modules) with other users.
 - Tracks dependencies and their version for reproducible builds.
 - Removes the reliance on code being in `$GOPATH`.
-- Create a module: `go` `mod` `init` `<somewhere>`. Where `<somewhere>` is the canonical path to your code, e.g. `github.com/gershwinlabs/go-overview`.
+- Create a module using the canonical path to your code:
+
+    go mod init github.com/gershwinlabs/go-overview
+
 - Put the `go.mod` and `go.sum` file in your source code repository.
-- To add dependencies simply `go` `get` `<dependency>` (with `-u` to update).
+- To add dependencies simply:
+
+    go get <dependency>  # use -u to update
+
+* Dependencies referenced by hash
+- Extremely specific to ensure reproducible builds.
+- Here is the go.sum file for this class.
+.code go.sum
 
 * Obligatory Hello World
 .play -edit hello.go
@@ -255,6 +265,23 @@ Bill Allen
     // Private structs cannot be instantiated from outside the package
     type header struct {...}
 
+* Looping
+- `for` is the only loop keyword.
+
+    for { } // infinite loop
+
+    for x < testVal { } // while loop
+
+    for i := 0; i < testVal; i++ { } // classic for loop; no ++i
+
+    for i, x := range items { } // loop over slice
+
+    for _, x := range items { } // same without i index
+
+    for k, v := range mapItems { } // loop over map
+
+    for item := range itemChan { } // read items from channel until channel closed
+
 * Arrays and Slices
 - Arrays are pass-by-value, but you almost never use arrays directly.
 - Slices similar to Python lists, and refer to a range of an underlying array.
@@ -285,23 +312,6 @@ Bill Allen
         // illegal; you have to unpack immediately
         result := multiReturnFunc(1,2)
     }
-
-* Looping
-- `for` is the only loop keyword.
-
-    for { } // infinite loop
-
-    for x < testVal { } // while loop
-
-    for i := 0; i < testVal; i++ { } // classic for loop
-
-    for i, x := range items { } // loop over slice
-
-    for _, x := range items { } // same without i index
-
-    for k, v := range mapItems { } // loop over map
-
-    for item := range itemChan { } // read items from channel until channel closed
 
 * Member function aren't just for structs
 .play -edit memberfunctions.go /START OMIT/,/END OMIT/
@@ -375,7 +385,7 @@ Bill Allen
 
 * Goroutine Gotchas
 - Don't feel like you have to use goroutines.  Get it working first.
-- Careful goroutine closures and `defer`.
+- Careful with goroutine closures and `defer`.
 - Deadlocks.
     fatal error: all goroutines are asleep - deadlock!
 
@@ -431,3 +441,8 @@ Bill Allen
 - Build a container with one of your exercise solutions in it
 - Profile one of your exercise solutions
 
+* Alternative exercise
+.link https://en.wikipedia.org/wiki/Dining_philosophers_problem#Problem_statement Dining Philosophers Problem
+- Implement a solution in Go.
+- Hint: Each philosopher can be a goroutine.
+- How do they communicate (signal) each other?
