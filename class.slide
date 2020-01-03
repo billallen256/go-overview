@@ -1,7 +1,5 @@
 Go Overview
 
-Bill Allen
-
 * Assumptions
 - You've written software before.
 - You've set up Go in your environment.
@@ -24,15 +22,19 @@ Bill Allen
 .link https://www.youtube.com/watch?v=KyuFeiG3Y60 Visualizing Concurrency in Go
 
 * Agenda
+- Check your environment
 - Language background
 - Syntax and built-in types
 - Error handling
 - Structs
 - Interfaces
-- Maps and slices
+- Slices
+- Exercise: Lorem Ipsum Generator
+- Maps
 - Defer
 - Concurrency
-- Exercises
+- Packet exercises
+- Alternative Exercise: Dining Philosophers
 
 * Extra Topics
 .link https://golang.org/pkg/ Explore the Standard Library
@@ -54,6 +56,13 @@ Bill Allen
 .link https://www.youtube.com/channel/UC_BzFbxG2za3bp5NRRRXJSw Good go youtube channel
 .link https://dave.cheney.net/category/golang Good go blog
 
+* Exercise: Hello World
+- Check your environment
+.play -edit hello.go
+
+    go version
+    go run hello.go
+
 * History
 - Started in 2007 at Google by Thompson, Pike (creators of C), and Griesemer.
 - All three cited their dislike of C++'s complexity as a primary motivation for designing Go.
@@ -67,7 +76,7 @@ Bill Allen
 - Avoids need for many project-level standards and debates.
 - Fundamentals that can be easily extended; arrays, maps, channels, structs, etc.
 - "Go 1.x Promise": New 1.x compilers will compile older 1.x code.
-- Currently at Go 1.12.
+- Currently at Go 1.13.
 
 * Misc.
 - Statically compiled; no need to worry about transferring dependencies with executable.  Beefy executables though.  Hello World = 1.8 MiB.
@@ -120,9 +129,6 @@ Bill Allen
 - Extremely specific to ensure reproducible builds.
 - Here is the go.sum file for this class.
 .code go.sum
-
-* Obligatory Hello World
-.play -edit hello.go
 
 * Built-in Types
 - No implicit casts.  Must use explicit "conversions".
@@ -274,27 +280,41 @@ Bill Allen
 
     for i := 0; i < testVal; i++ { } // classic for loop; no ++i
 
-    for i, x := range items { } // loop over slice
-
-    for _, x := range items { } // same without i index
-
-    for k, v := range mapItems { } // loop over map
-
-    for item := range itemChan { } // read items from channel until channel closed
+- Can also loop over slices, maps, and channels...
 
 * Arrays and Slices
 - Arrays are pass-by-value, but you almost never use arrays directly.
 - Slices similar to Python lists, and refer to a range of an underlying array.
 - Slices are also pass-by-value, but the "value" only contains a reference to the start and end point in the underlying array.
 - Multiple slices can refer to the same array.
-- Slices often used where you'd use pointer arithmetic in C/C++.
+- Slices often used where you'd use pointer arithmetic in C/C++, but safer.
+
+* Looping over slices
+- Get the index and value:
+
+    for i, x := range items { }
+
+- Get just the value:
+
+    for _, x := range items { }
 
 * Slice Example
 .play -edit array.go /START OMIT/,/END OMIT/
 
+* Exercise: Loprem Ipsum Generator
+- Create a Lorem Ipsum generator.
+- It should take one command line parameter for the number of paragraphs to generate.  See os.Args.
+- Read sample text from lorem_ipsum.txt into a slice.
+- The paragraphs should be printed in random order.  See rand.Intn().
+- It's ok to print the same paragraph more than once.
+
 * Map
 - Same as hash or dict in other languages (types must be declared).
 - Lookups can also be checked inline.
+- Can loop over maps too:
+
+    for k, v := range mapItems { }
+
 .play -edit map.go /START OMIT/,/END OMIT/
 
 * Tuples
@@ -356,6 +376,13 @@ Bill Allen
 
     cat somefile.txt | grep ERROR | cut -f 2 | sort | uniq | less
 
+* Looping over channels
+
+    for item := range itemChan { }
+
+* Pipeline Concurrency Pattern
+    ip4PacketsFromPcap -> appLayerFromPackets -> scanAppLayer
+
 * Pipeline Concurrency Pattern
 .play -edit pipeline.go /START MAIN OMIT/,/END MAIN OMIT/
 
@@ -371,6 +398,9 @@ Bill Allen
 * Fire-and-Forget Concurrency Pattern
 - Useful when the success or failure of a task is simply going to be logged.
 .play -edit fireandforget.go /START OMIT/,/END OMIT/
+
+* Goroutine pools are safer
+.play -edit pool.go /START OMIT/,/END OMIT/
 
 * Listening to Multiple Channels with select
 - Similar to C's `select` system call for file descriptors.
@@ -402,13 +432,7 @@ Bill Allen
 .link https://blog.golang.org/concurrency-is-not-parallelism Concurrency is not Parallelism (~30 minutes)
 .link https://talks.golang.org/2012/waza.slide#1 Slides for above talk
 
-* Exercise 1
-- See what version of Go you're running.
-    go version
-- Write and run Hello World
-    go run hello.go  // keyword hints: package import func
-
-* Exercise 2
+* Exercise: Packet Metadata
 - Write a program  that returns a PacketMeta struct for each packet in a pcap.
     type PacketMeta struct {
         Protocol    string // IP protocol, eg. TCP, UDP
@@ -425,11 +449,11 @@ Bill Allen
 .link http://tcpreplay.appneta.com/wiki/captures.html Small pcap files
 .link https://www.netresec.com/?page=MACCDC Big pcap files
 
-* Exercise 3
+* Exercise: Protocol Count
 - Write a program that counts the number of packets received for each protocol.
 - Don't use goroutines.
 
-* Exercise 4
+* Exercise: Protocol Count with Goroutines
 - Rewrite your protocol counting program to use goroutines for concurrency.
 - Compare the execution time of the concurrent version with the serial version.
 - Hint: Take a look at sync.WaitGroup.
@@ -441,7 +465,7 @@ Bill Allen
 - Build a container with one of your exercise solutions in it
 - Profile one of your exercise solutions
 
-* Alternative exercise
+* Alternative exercise: Dining Philosophers
 .link https://en.wikipedia.org/wiki/Dining_philosophers_problem#Problem_statement Dining Philosophers Problem
 - Implement a solution in Go.
 - Hint: Each philosopher can be a goroutine.

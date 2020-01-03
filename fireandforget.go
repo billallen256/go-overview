@@ -25,7 +25,7 @@ func main() {
 	packetSource := gopacket.NewPacketSource(pcapFile, pcapFile.LinkType())
 
 	for packet := range packetSource.Packets() {
-		go process(packet) // a word of caution
+		go process(packet) // Caution: new goroutine per packet
 	}
 }
 
