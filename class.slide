@@ -22,17 +22,11 @@ Go Overview
 .link https://www.youtube.com/watch?v=KyuFeiG3Y60 Visualizing Concurrency in Go
 
 * Agenda
-- Check your environment
-- Language background
-- Syntax and built-in types
-- Error handling
-- Structs
-- Interfaces
-- Slices
+- Basics: Language, syntax and built-in types. Error handling
+- Exercise: Fizz Buzz
+- Data Types: Structs and Interfaces, Slices and Maps
 - Exercise: Lorem Ipsum Generator
-- Maps
-- Defer
-- Concurrency
+- Other Topics: Defer, Concurrency, Context
 - Packet exercises
 - Alternative Exercise: Dining Philosophers
 
@@ -76,7 +70,7 @@ Go Overview
 - Avoids need for many project-level standards and debates.
 - Fundamentals that can be easily extended; arrays, maps, channels, structs, etc.
 - "Go 1.x Promise": New 1.x compilers will compile older 1.x code.
-- Currently at Go 1.13.
+- Currently at Go 1.15.
 
 * Misc.
 - Statically compiled; no need to worry about transferring dependencies with executable.  Beefy executables though.  Hello World = 1.8 MiB.
@@ -168,12 +162,28 @@ Go Overview
 - Explicitly handle the error: log it, ignore it, or pass it upward.
 - By convention, return error as last item in return tuple.  Gets away from using out-of-band values for errors.
 - Use `nil` when there is no error.
+- Errors are values, you can do clever things with them.
 
 * Error Example
 .play -edit err.go /START MAIN OMIT/,/END MAIN OMIT/
 
 * Error Example
 .play -edit err.go /START FUNC OMIT/,/END FUNC OMIT/
+
+* Error Example - Wrapping
+.play -edit err2.go /START MAIN OMIT/,/END MAIN OMIT/
+
+* Documentation
+- Docs are never far from the source.
+- You can do the same.
+- By convention, start doc comments with the name of the function/type.
+.link https://golang.org/pkg/crypto/tls/#X509KeyPair LoadX509KeyPair() Example
+
+* Exercise: Fizz Buzz
+- Create a program that prints the numbers 1 to 100
+- If the number is divisible by 3, print Fizz instead
+- If the number is divisible by 5, print Buzz instead
+- If the number is divisible by both 3 and 5, print Fizz Buzz instead
 
 * Object-Oriented(ish)
 - No inheritance.  No templating.  No generics (yet).
@@ -301,13 +311,6 @@ Go Overview
 * Slice Example
 .play -edit array.go /START OMIT/,/END OMIT/
 
-* Exercise: Loprem Ipsum Generator
-- Create a Lorem Ipsum generator.
-- It should take one command line parameter for the number of paragraphs to generate.  See os.Args.
-- Read sample text from lorem_ipsum.txt into a slice.
-- The paragraphs should be printed in random order.  See rand.Intn().
-- It's ok to print the same paragraph more than once.
-
 * Map
 - Same as hash or dict in other languages (types must be declared).
 - Lookups can also be checked inline.
@@ -336,8 +339,16 @@ Go Overview
 * Member function aren't just for structs
 .play -edit memberfunctions.go /START OMIT/,/END OMIT/
 
+* Exercise: Loprem Ipsum Generator
+- Create a Lorem Ipsum generator.
+- It should take one command line parameter for the number of paragraphs to generate.  See os.Args.
+- Read sample text from lorem_ipsum.txt into a slice.
+- The paragraphs should be printed in random order.  See rand.Intn().
+- It's ok to print the same paragraph more than once.
+- Extension: Count the unique words in Loreum Ipsum.
+
 * Defer
-- Keeps the exit code close ot the initial code.
+- Keeps the exit code close to the initial code.
 - Defer guaranteed to run when leaving the function, even if there's an error.
 - Similar to Python's try, except, finally.
 - Similar to Java's try, catch, finally.
@@ -422,15 +433,12 @@ Go Overview
 * Goroutines and defer
 .play -edit deferclose.go /START OMIT/,/END OMIT/
 
-* Documentation
-- Docs are never far from the source.
-- You can do the same.
-- By convention, start doc comments with the name of the function/type.
-.link https://golang.org/pkg/crypto/tls/#X509KeyPair LoadX509KeyPair() Example
-
-* Concept Review
+* Concurrency Concept Review
 .link https://blog.golang.org/concurrency-is-not-parallelism Concurrency is not Parallelism (~30 minutes)
 .link https://talks.golang.org/2012/waza.slide#1 Slides for above talk
+
+* Context
+.play -edit context.go /START MAIN OMIT/,/END MAIN OMIT/
 
 * Exercise: Packet Metadata
 - Write a program  that returns a PacketMeta struct for each packet in a pcap.
