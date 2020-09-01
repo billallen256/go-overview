@@ -8,7 +8,7 @@ import (
 
 // START MAIN OMIT
 func wrap(e error) error {
-	return fmt.Errorf("It was broke because of '%w'", e)
+	return fmt.Errorf("It was broken because '%w'", e)
 }
 
 func main() {

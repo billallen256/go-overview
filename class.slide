@@ -18,11 +18,11 @@ Go Overview
 .link https://golang.org/pkg/#stdlib Standard Library
 .link https://devdocs.io/go/ DevDocs
 .link https://golang.org/doc/effective_go.html Effective Go
-.link https://commandcenter.blogspot.com/2012/06/less-is-exponentially-more.html Less is exponentially more
+.link https://commandcenter.blogspot.com/2012/06/less-is-exponentially-more.html Less is exponentially more - Rob Pike
 .link https://www.youtube.com/watch?v=KyuFeiG3Y60 Visualizing Concurrency in Go
 
 * Agenda
-- Basics: Language, syntax and built-in types. Error handling
+- Basics: Language, syntax, built-in types, error handling
 - Exercise: Fizz Buzz
 - Data Types: Structs and Interfaces, Slices and Maps
 - Exercise: Lorem Ipsum Generator
@@ -103,7 +103,7 @@ Go Overview
 - Removes a whole class of developer debates.
 - vim and VS Code integration.
 - Tabs FTW!
-- Good: Format your code before you `git commit`.
+- Good: Format your code before you `git commit`.  See git pre-commit hook.
 - Better: Get your editor to do it every time you save.
 
 * go mod
@@ -180,10 +180,10 @@ Go Overview
 .link https://golang.org/pkg/crypto/tls/#X509KeyPair LoadX509KeyPair() Example
 
 * Exercise: Fizz Buzz
-- Create a program that prints the numbers 1 to 100
-- If the number is divisible by 3, print Fizz instead
-- If the number is divisible by 5, print Buzz instead
-- If the number is divisible by both 3 and 5, print Fizz Buzz instead
+- Create a program that prints the numbers 1 to 100.
+- If the number is divisible by 3, print Fizz instead.
+- If the number is divisible by 5, print Buzz instead.
+- If the number is divisible by both 3 and 5, print Fizz Buzz instead.
 
 * Object-Oriented(ish)
 - No inheritance.  No templating.  No generics (yet).
@@ -255,6 +255,11 @@ Go Overview
 - os.File, http.Response, bytes.Buffer, and many others implement the Writer interface by providing Write().
     func process(byteSource io.Reader) (int, error) {...}
 
+* Mocking
+- This is not the idiom you're looking for.
+- Use interfaces instead.
+- "Mock" during tests by creating a test instance that supports the same interface as the real thing.
+
 * Type Assertions: Convert an interface to a concrete type
 .play -edit type-assertions.go /START MAIN OMIT/,/END MAIN OMIT/
 
@@ -316,7 +321,7 @@ Go Overview
 - Lookups can also be checked inline.
 - Can loop over maps too:
 
-    for k, v := range mapItems { }
+    for key, value := range mapItems { }
 
 .play -edit map.go /START OMIT/,/END OMIT/
 
@@ -426,6 +431,7 @@ Go Overview
 
 * Goroutine Gotchas
 - Don't feel like you have to use goroutines.  Get it working first.
+- Channels can introduce unexpected contention and bottlenecks; uses mutex under the hood.
 - Careful with goroutine closures and `defer`.
 - Deadlocks.
     fatal error: all goroutines are asleep - deadlock!
@@ -436,6 +442,14 @@ Go Overview
 * Concurrency Concept Review
 .link https://blog.golang.org/concurrency-is-not-parallelism Concurrency is not Parallelism (~30 minutes)
 .link https://talks.golang.org/2012/waza.slide#1 Slides for above talk
+
+* Context
+- Useful for carrying request-scoped values, deadlines, and cancellation signals between API's.
+- Much more capable than passing structs around.
+- Contexts can be chained together.
+- Deadline signals happen automatically.
+- Idiomatic to pass context as first parameter.
+.link https://blog.golang.org/context Context blog post.
 
 * Context
 .play -edit context.go /START MAIN OMIT/,/END MAIN OMIT/
