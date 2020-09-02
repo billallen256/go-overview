@@ -351,6 +351,7 @@ Go Overview
 - The paragraphs should be printed in random order.  See rand.Intn().
 - It's ok to print the same paragraph more than once.
 - Extension: Count the unique words in Loreum Ipsum.
+- Extension: Test the generator and control the random number.
 
 * Defer
 - Keeps the exit code close to the initial code.
