@@ -22,12 +22,12 @@ To launch the slides run `./run.sh` in a checkout of this repository and visit: 
 ## Setting up on Mac
 Make sure you have git installed via Xcode.
 
-Download the binary .tar.gz (not the .pkg) from golang.org/dl: https://dl.google.com/go/go1.12.5.darwin-amd64.tar.gz
+Download the binary .tar.gz (not the .pkg) from golang.org/dl: https://golang.org/dl/go1.15.1.darwin-amd64.tar.gz
 
 Extract into ~/goroot so GOROOT and GOPATH don't conflict:
 
 ```
-tar xzvf go1.12.5.darwin-amd64.tar.gz
+tar xzvf go1.15.1.darwin-amd64.tar.gz
 mv go ~/goroot
 ```
 
